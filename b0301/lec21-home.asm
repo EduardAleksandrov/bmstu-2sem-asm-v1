@@ -14,13 +14,13 @@ SSTACK ENDS
 
 CSEG SEGMENT PUBLIC 'CODE'
     ASSUME CS:CSEG, DS:DSEG, SS:SSTACK
-print_str proc ; печать результата
+print_result proc ; печать результата
     mov ah, 2h
     mov dx, bx
     add dx, '0'
     int 21h
     ret
-print_str endp
+print_result endp
 
 START:
     mov ax, DSEG
@@ -49,7 +49,7 @@ m3:
 m4:
     xor bx, bx
     mov bx, [si]
-    call print_str
+    call print_result
     jmp exit
 
 exit:

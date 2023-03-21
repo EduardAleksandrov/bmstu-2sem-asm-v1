@@ -13,13 +13,13 @@ Ourstack ENDS
 ASSUME CS:Code, DS:Data, SS:Ourstack
 
 Code SEGMENT
-print_str proc ; результат
+print_result proc ; результат в цифровом виде
     mov ah, 2h
     mov dx, bx
     add dx, '0'
     int 21h
     ret
-print_str endp
+print_result endp
 
 print_empty proc ; пустая строка
     mov AH, 09h
@@ -46,7 +46,7 @@ m2:
     add si, 2
     loop m1
 
-    call print_str
+    call print_result
     call print_empty
 ;min
     mov si, offset array
@@ -62,7 +62,7 @@ m4:
     add si, 2
     loop m3
     
-    call print_str
+    call print_result
 
     jmp exit
     
