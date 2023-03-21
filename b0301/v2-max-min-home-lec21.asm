@@ -13,10 +13,10 @@ Ourstack ENDS
 ASSUME CS:Code, DS:Data, SS:Ourstack
 
 Code SEGMENT
-print_result proc ; результат в цифровом виде
+print_result proc ; результат в цифровом виде, входящее значение в bx
     mov ah, 2h
     mov dx, bx
-    add dx, '0'
+    add dx, '0' ; преобразовываем цифру в ASCII символ
     int 21h
     ret
 print_result endp

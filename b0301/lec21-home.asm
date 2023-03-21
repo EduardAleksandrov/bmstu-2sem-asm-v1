@@ -14,7 +14,7 @@ SSTACK ENDS
 
 CSEG SEGMENT PUBLIC 'CODE'
     ASSUME CS:CSEG, DS:DSEG, SS:SSTACK
-print_result proc ; печать результата
+print_result proc ; печать результата, входящее значение в bx
     mov ah, 2h
     mov dx, bx
     add dx, '0'
