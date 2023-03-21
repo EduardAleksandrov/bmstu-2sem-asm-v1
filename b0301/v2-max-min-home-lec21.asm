@@ -38,7 +38,7 @@ Start:
     xor bx, bx
 m1: 
     cmp [si], bx
-    jg max
+    jg max ; проверяет флаги ZF, SF и OF. Переход выполняется, если ZF = 0 и SF = OF
     jmp m2
 max:
     mov bx, [si]
@@ -54,7 +54,7 @@ m2:
     mov bx, [si]
 m3: 
     cmp [si], bx
-    jl min
+    jl min ; проверяет флаги SF и OF. Переход выполняется, если SF не равен OF
     jmp m4
 min:
     mov bx, [si]

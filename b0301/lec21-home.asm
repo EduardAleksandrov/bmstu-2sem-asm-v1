@@ -34,12 +34,12 @@ m1:
 
 m2:
     test [si], ax
-    jnz m3
+    jnz m3 ; флаг zf=1, то переход
     dec k
     
     mov bx, k
     cmp zero, bx
-    je m4
+    je m4 ; флаг zf=1, то переход
     jz m3
 
 m3:
