@@ -1,6 +1,6 @@
 Data SEGMENT
     org 0100h ;смещение от начала базы сегмента
-    greet dw 1
+    greet db ' ', 13, 10 , "$" ; пустая строка
     array dw 1,2,3,4,5
 Data ENDS
 
@@ -11,13 +11,20 @@ Ourstack ENDS
 ASSUME CS:Code, DS:Data, SS:Ourstack
 
 Code SEGMENT
-print_str proc
+print_str proc ; результат
     mov ah, 2h
     mov dx, bx
     add dx, '0'
     int 21h
     ret
 print_str endp
+
+print_empty proc ; пустая строка
+    mov AH, 09h
+    mov DX, OFFSET greet
+    int 21h
+    ret
+print_empty endp
 
 Start:
     mov AX, Data
@@ -38,6 +45,7 @@ m2:
     loop m1
 
     call print_str
+    call print_empty
 ;min
     mov si, offset array
     mov cx, 5
