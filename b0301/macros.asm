@@ -1,4 +1,4 @@
-; task: нахождение максимума и минимума в массиве v2, готовая
+; task: нахождение максимума и минимума в массиве используя макросы
 
 Data SEGMENT
     org 0100h ;смещение от начала базы сегмента
@@ -13,20 +13,18 @@ Ourstack ENDS
 ASSUME CS:Code, DS:Data, SS:Ourstack
 
 Code SEGMENT
-print_result proc ; результат в цифровом виде, входящее значение в bx
+printr MACRO ; результат в цифровом виде, входящее значение в bx
     mov ah, 2h
     mov dx, bx
     add dx, '0' ; преобразовываем цифру в ASCII символ
     int 21h
-    ret
-print_result endp
+endm
 
-print_empty proc ; пустая строка
+empty MACRO ; пустая строка
     mov AH, 09h
     mov DX, OFFSET greet
     int 21h
-    ret
-print_empty endp
+endm
 
 Start:
     mov AX, Data
@@ -46,8 +44,8 @@ m2:
     add si, 2
     loop m1
 
-    call print_result
-    call print_empty
+    printr
+    empty
 ;min
     mov si, offset array
     mov cx, 5
@@ -62,7 +60,7 @@ m4:
     add si, 2
     loop m3
     
-    call print_result
+    printr
 
     jmp exit
     

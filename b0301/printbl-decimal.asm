@@ -1,10 +1,10 @@
-; Печать десятичного значения
+; Печать десятичного значения в bl не работает
 
 Data SEGMENT
     org 0100h ;смещение от начала базы сегмента
     greet db ' ', 13, 10 , "$" ; пустая строка
-    array dw 1,2,27,10,5
-    ten dw 10
+    array db 1,2,27,10,5
+    ten db 10
 Data ENDS
 
 Ourstack SEGMENT Stack
@@ -17,22 +17,24 @@ Code SEGMENT
 print_result proc ; результат для десятичных значений, входящее значение в bx
     ; mov ax, bx
     ; aam
-    xor dx, dx
-    mov ax, bx
+    xor dl, dl
+    mov al, bl
     div ten
-    mov bx, dx ; первая цифра, 0 разряд слева
+    mov bl, dl ; первая цифра, 0 разряд слева
     cmp ax, 0
     je p1
 
-    mov dx, ax ; вторая цифра, 1 разряд слева
+    mov dl, al ; вторая цифра, 1 разряд слева
+    xor al, al
     mov ah, 2h
-    add dx, '0' ;преобразовываем цифру в ASCII символ
+    add dl, '0' ;преобразовываем цифру в ASCII символ
     int 21h
     
 p1: 
-    mov dx, bx 
+    xor dl, dl
+    mov dl, bl 
     mov ah, 2h
-    add dx, '0' ;преобразовываем цифру в ASCII символ
+    add dl, '0' ;преобразовываем цифру в ASCII символ
     int 21h
 
     ret
@@ -52,8 +54,8 @@ Start:
     mov si, offset array
     mov cx, 5
 m1:
-    mov bx, [si]
-    add si, 2
+    mov bl, [si]
+    add si, 1
     call print_result
     call print_empty
     loop m1
