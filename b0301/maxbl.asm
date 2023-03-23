@@ -1,7 +1,7 @@
-; task: запись в регистры bl, bh
+; task: нахождение максимума в массиве
 
 Data SEGMENT
-    array dw 4,2,1,9,5
+    array db 4,2,1,9,5
 Data ENDS
 
 Ourstack SEGMENT Stack
@@ -14,13 +14,20 @@ Start:
     mov AX, Data
     mov DS, AX
 
-    mov bl, 4
-    mov bh, 3
-    mov bx, 8
-
-    xor ax, ax
-    mov ah, 2
-    ;mov dx, ah ; невозможно, только через ax
+;max
+    mov si, 0   
+    mov cx, 5
+    mov bl, array[si]
+m1: 
+    inc si
+    mov al, array[si]
+    cmp al, bl
+    jg max ; проверяет флаги ZF, SF и OF. Переход выполняется, если ZF = 0 и SF = OF
+    jmp m2
+max:
+    mov bl, array[si]
+m2:
+    loop m1
 
 prt:
     mov ah, 2h

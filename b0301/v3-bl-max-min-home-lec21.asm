@@ -1,9 +1,9 @@
-; task: нахождение максимума и минимума в массиве v2, готовая
+; task: нахождение максимума и минимума в массиве v3, через bl, готовая
 
 Data SEGMENT
     org 0100h ;смещение от начала базы сегмента
     greet db ' ', 13, 10 , "$" ; пустая строка
-    array dw 1,2,3,4,5
+    array db 1,2,3,4,5
 Data ENDS
 
 Ourstack SEGMENT Stack
@@ -35,15 +35,15 @@ Start:
 ;max
     mov si, offset array   ; либо si = 0 и везде вместо [si] пишем array[si]
     mov cx, 5
-    mov bx, [si]
+    mov bl, [si]
 m1: 
-    cmp [si], bx
+    cmp [si], bl
     jg max ; проверяет флаги ZF, SF и OF. Переход выполняется, если ZF = 0 и SF = OF
     jmp m2
 max:
-    mov bx, [si]
+    mov bl, [si]
 m2:
-    add si, 2
+    add si, 1
     loop m1
 
     call print_result
@@ -51,15 +51,15 @@ m2:
 ;min
     mov si, offset array
     mov cx, 5
-    mov bx, [si]
+    mov bl, [si]
 m3: 
-    cmp [si], bx
+    cmp [si], bl
     jl min ; проверяет флаги SF и OF. Переход выполняется, если SF не равен OF
     jmp m4
 min:
-    mov bx, [si]
+    mov bl, [si]
 m4:
-    add si, 2
+    add si, 1
     loop m3
     
     call print_result
