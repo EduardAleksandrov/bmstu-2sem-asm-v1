@@ -22,9 +22,9 @@ m1:
     inc si
     mov al, array[si]
     cmp al, bl
-    jg max ; проверяет флаги ZF, SF и OF. Переход выполняется, если ZF = 0 и SF = OF
+    jl min ; проверяет флаги ZF, SF и OF. Переход выполняется, если ZF = 0 и SF = OF
     jmp m2
-max:
+min:
     mov bl, array[si]
 m2:
     loop m1

@@ -16,7 +16,7 @@ Start:
 
 ;max
     mov si, 0   
-    mov cx, 5
+    mov cx, 4
     mov bx, array[si]
 m1: 
     inc si
