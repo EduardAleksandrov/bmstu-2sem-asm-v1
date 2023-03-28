@@ -22,19 +22,17 @@ print_num proc ; печать цифр
     push cx
     push dx
     xor cx, cx
-
-    cmp ax, 0
-    je zero_close ; печать, если значение ноль
-
     next:
-        cmp ax, 0
-        je pr
         mov bx, 10
         xor dx, dx
         div bx
         add dx, '0'
         push dx
         inc cx
+
+        cmp ax, 0
+        je pr
+
         jmp next
     pr:
         cmp cx, 0
@@ -43,14 +41,6 @@ print_num proc ; печать цифр
         call print_char
         dec cx
         jmp pr
-    zero_close:
-        add ax, '0'
-        call print_char
-        pop dx
-        pop cx
-        pop bx
-        pop ax
-        ret
     close:
         pop dx
         pop cx
