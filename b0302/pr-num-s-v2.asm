@@ -1,11 +1,10 @@
-; Печать символа, пустой строки, цифр, обычной строки - работает
+; Печать символа, пустой строки, печать цифр изолирована от символов - работает
 
 Data SEGMENT
     org 0100h ;смещение от начала базы сегмента
     empty db ?, 13, 10 , "$" ; пустая строка
-    sign db ?, "$" ; символ
+    symbol db ?, "$" ; символ
     num dw 248 ; число
-    string db 'Hello!',"$" ; строка
 Data ENDS
 
 Ourstack SEGMENT Stack
@@ -41,13 +40,20 @@ print_num proc ; печать цифр
     pr:
         cmp cx, 0
         je close
-        pop ax
-        call print_char
+        
+        pop dx
+        mov ah, 2h ; печать, input = dx
+        int 21h
+
         dec cx
         jmp pr
     zero_close:
         add ax, '0'
-        call print_char
+        
+        mov dx, ax ; печать, input = dx
+        mov ah, 2h
+        int 21h
+
         pop dx
         pop cx
         pop bx
@@ -69,9 +75,9 @@ print_char proc ; печать символа
     push cx
     push dx
 
-    mov sign, al
+    mov symbol, al
     mov AH, 09h
-    mov DX, OFFSET sign
+    mov DX, OFFSET symbol
     int 21h
 
     pop dx
@@ -100,25 +106,6 @@ print_empty proc ; печать пустой строки
     ret
 print_empty endp
 
-print_string proc ; печать строки
-; input
-; string db
-    push ax
-    push bx
-    push cx
-    push dx
-
-    mov AH, 09h
-    mov DX, OFFSET string
-    int 21h
-
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    ret
-print_string endp
-
 Start:
     mov AX, Data
     mov DS, AX
@@ -133,12 +120,7 @@ Start:
 ; печать цифры
     mov ax, num
     call print_num
-    call print_empty
 ; ---
-; печать строки
-    call print_string
-; ---
-
 
     jmp exit
 exit:
