@@ -11,8 +11,6 @@ Ourstack SEGMENT Stack
     db 100h DUP (?)
 Ourstack ENDS
 
-
-
 Code SEGMENT
     ASSUME CS:Code, DS:Data, SS:Ourstack
 print_num proc ; печать цифр
