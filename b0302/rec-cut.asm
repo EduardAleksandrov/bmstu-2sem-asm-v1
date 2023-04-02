@@ -1,9 +1,9 @@
-; рекурсия - работает
+; уже не рекурсия, сокращенная без стека, просто расчет факториала - работает
 
 Data SEGMENT
     org 0100h ;смещение от начала базы сегмента
     empty db ?, 13, 10 , "$" ; пустая строка
-    num dw 3 ; число
+    num dw 4 ; число
 Data ENDS
 
 Ourstack SEGMENT Stack
@@ -74,21 +74,13 @@ start:
     mov AX, Data
     mov DS, AX
 
-    mov dx, num
+    mov bx, num
     mov cx, num
-m1:
-    push dx
-    dec dx
-    loop m1
-
-    xor ax, ax
-    xor dx, dx
     mov ax, 1
-    mov cx, num
-m2: 
-    pop dx
-    mul dx   ; результат кладется в ax начало(меньшая часть) и в dx конец(большая часть)
-    loop m2
+m1:
+    mul bx
+    dec bx
+    loop m1
 
 ; печать цифры
     call print_num
