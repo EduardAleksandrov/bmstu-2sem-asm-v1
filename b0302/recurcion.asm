@@ -1,11 +1,9 @@
-; Печать символа, пустой строки, печать цифр изолирована от символов - работает
+; рекурсия - работает
 
 Data SEGMENT
     org 0100h ;смещение от начала базы сегмента
     empty db ?, 13, 10 , "$" ; пустая строка
-    symbol db ?, "$" ; символ
-    num dw 60 ; число
-    string db 'Hello!', "$" ; строка
+    num dw 3 ; число
 Data ENDS
 
 Ourstack SEGMENT Stack
@@ -52,25 +50,6 @@ print_num proc ; печать цифр
         ret
 print_num endp
 
-print_char proc ; печать символа
-; input
-; ax = char
-    push ax
-    push bx
-    push cx
-    push dx
-
-    mov symbol, al
-    mov AH, 09h
-    mov DX, OFFSET symbol
-    int 21h
-
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    ret
-print_char endp
 
 print_empty proc ; печать пустой строки
 ; input
@@ -91,44 +70,31 @@ print_empty proc ; печать пустой строки
     ret
 print_empty endp
 
-print_string proc ; печать строки
-; input
-; string db
-    push ax
-    push bx
-    push cx
-    push dx
-
-    mov AH, 09h
-    mov DX, OFFSET string
-    int 21h
-
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    ret
-print_string endp
-
-Start:
+start:
     mov AX, Data
     mov DS, AX
 
-; печать символа
-    mov ax, '5'
-    call print_char
-; ---
-; печать пустой строки
+    mov dx, num
+    mov cx, num
+m1:
+    push dx
+    dec dx
+    loop m1
+
+    xor ax, ax
+    xor dx, dx
+    mov ax, 1
+    mov cx, num
+
+m2: 
+    pop dx
+    mul dx
+    loop m2
+
+; печать цифры
+    call print_num
     call print_empty
 ; ---
-; печать цифры
-    mov ax, num
-    call print_num
-; ---
-; печать строки
-    call print_string
-; ---
-
 
     jmp exit
 exit:
