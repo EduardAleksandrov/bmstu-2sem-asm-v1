@@ -85,10 +85,9 @@ m1:
     xor dx, dx
     mov ax, 1
     mov cx, num
-
 m2: 
     pop dx
-    mul dx
+    mul dx   ; результат кладется в ax
     loop m2
 
 ; печать цифры
