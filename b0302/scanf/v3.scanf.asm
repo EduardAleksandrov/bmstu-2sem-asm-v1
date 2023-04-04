@@ -1,4 +1,4 @@
-; перевод из строки в число (через сравнение с длиной строки) - работает
+; перевод из строки в число (через сравнение с долларом) - работает
 
 ; '531', $
 ; '5' - '0' = 5
@@ -11,7 +11,6 @@ Data SEGMENT
     org 0100h ;смещение от начала базы сегмента
     empty db ?, 13, 10 , "$" ; пустая строка
     num db '53123', "$" ; число
-    numlen = $-num-1 ; длина строки num
     multi dw 10 ; умножение на 10 плюс сумма
 Data ENDS
 
@@ -53,18 +52,17 @@ string_to_number proc
 
     xor ax, ax
     xor cx, cx
+    xor dx, dx
 
-    mov cx, numlen ;счетчик
-    ;mov ax, '$'
+    mov al, '$'
     next_iter:
-            ;cmp [bx+si], ax
-            ;je next_step
-            mov al, [bx+si]
-            sub al, '0' ; перевод в число
-            push ax
+            cmp [bx+si], al ; ставим al так как строка в db формате
+            je next_step
+            mov dl, [bx+si]
+            sub dl, '0' ; перевод в число
+            push dx
             inc si
-            loop next_iter
-            ;jmp next_iter
+            jmp next_iter
     next_step:
             mov cx, 1
             xor bx, bx
