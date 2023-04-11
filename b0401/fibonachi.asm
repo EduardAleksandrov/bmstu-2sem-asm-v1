@@ -1,4 +1,4 @@
-; Факториал через рекурсию - работает
+; 
 
 Data SEGMENT
     empty db ?, 13, 10 , "$" ; пустая строка
@@ -16,7 +16,7 @@ Start:
     mov DS, AX
 
     mov ax, var
-    call rec_fac
+    call rec_fib
     call print_num
 
     jmp exit
@@ -25,42 +25,23 @@ exit:
     mov AH, 4ch
     int 21h
 
-rec_fac proc
-    push ax
+rec_fib proc
+    
+    cmp ax, 1
+    jbe done
+    sub si, 4
     dec ax
-    cmp ax, 0
-    jne m1
-    
-    mov ax, 1
-    pop cx
-    mul cx
-    
-    ret
-    m1: 
-        call rec_fac
-        pop cx
-        mul cx
+    mov [si], ax
+    call rec_fib
+    mov [si+2], ax
+    mov ax, [si]
+    dec ax
+    call rec_fib
+    add ax, [si+2]
+    add si, 4
+    done:
         ret
-rec_fac endp
-
-
-
-factorial proc
-; input - ax - number
-; output - ax - number
-    push bx
-    mov bx, ax
-    mov ax, 1
-    next_iter_f:
-        cmp bx, 1
-        jle close_f
-        mul bx
-        dec bx
-        jmp next_iter_f
-    close_f:
-    pop bx
-    ret
-factorial endp
+rec_fib endp
 
 
 print_num proc ; печать цифр
