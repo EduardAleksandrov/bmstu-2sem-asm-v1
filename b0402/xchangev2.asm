@@ -2,7 +2,7 @@
 
 Data SEGMENT
     empty db ?, 13, 10 , "$" ; пустая строка
-    string db  'abcdefg', "$"
+    string db 'abcdefg', "$"
     len = $-string-1
 Data ENDS
 
