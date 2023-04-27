@@ -60,7 +60,7 @@ string_to_number proc
             ;cmp [bx+si], ax
             ;je next_step
             mov al, [bx+si]
-            sub al, '0' ; перевод в число
+            sub al, '0' ; перевод символа в число
             push ax
             inc si
             loop next_iter
@@ -123,7 +123,7 @@ print_num proc; печать цифр
         mov bx, 10
         xor dx, dx
         div bx
-        add dx, '0'
+        add dx, '0' ; перевод числа в символ
         push dx
         inc cx
         

@@ -59,7 +59,7 @@ string_to_number proc
             cmp [bx+si], al ; ставим al так как строка в db формате
             je next_step
             mov dl, [bx+si]
-            sub dl, '0' ; перевод в число
+            sub dl, '0' ; перевод символа в число
             push dx
             inc si
             jmp next_iter
@@ -121,7 +121,7 @@ print_num proc; печать цифр
         mov bx, 10
         xor dx, dx
         div bx
-        add dx, '0'
+        add dx, '0' ; перевод числа в символ
         push dx
         inc cx
         
