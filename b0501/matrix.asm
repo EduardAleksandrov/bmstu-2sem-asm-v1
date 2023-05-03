@@ -38,10 +38,10 @@ START:
 
 
     ; добавляем доллар в конец строки
-    mov si, 16
-    mov cl, '$'
+    mov SI, 16
+    mov CL, '$'
     mov BX, OFFSET x
-    mov [BX+SI], cl
+    mov [BX+SI], CL
     ; выводим строку
     mov AH, 09h
     mov DX, OFFSET x
